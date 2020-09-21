@@ -19,9 +19,7 @@ void ballFaster();
 void ballColideLR();
 void ballColideTB();
 void ballForward();
-void *game();
-void *printSpeed();
-void *getKeyInput();
+void game();
 
 int main()
 {
@@ -31,13 +29,7 @@ int main()
     curs_set(FALSE);
 
     //Tread game and key input
-    pthread_t thread_id;
-    pthread_t thread_id2;
-    pthread_create(&thread_id, NULL, game, NULL);
-    pthread_create(&thread_id2, NULL, *getKeyInput, NULL);
-    pthread_join(thread_id, NULL);
-    pthread_join(thread_id2, NULL);
-
+    game();
     endwin();
 }
 
@@ -58,14 +50,12 @@ void ballForward(){
         x+= direction_x; 
         y+= direction_y; 
 }
-void *game(){
+void game(){
 
     while(1){
 
         getmaxyx(stdscr, max_y, max_x);
         clear();
-        printSpeed();
-        getKeyInput();
         mvprintw(y,x,"o"); 
         refresh();
 
@@ -87,21 +77,3 @@ void *game(){
     }
 }
 
-void *printSpeed(){
-    char sdelay[10];
-    sprintf(sdelay, "%d", delay);
-        mvprintw(0,0,sdelay); 
-
-}
-void *getKeyInput(){
-    while(1){
-    char key;
-    key = getchar();
-    if(&key=="j"){
-        delay += 1000;
-    }
-    else if(&key=="k"){
-        delay -= 1000;
-    }
-    }
-}
